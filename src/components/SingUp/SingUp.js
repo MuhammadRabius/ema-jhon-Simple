@@ -1,13 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+
+import auth from './../../firebase.init';
 
 
 const SingUp = () => {
    const [email,setEmail]=useState('');
    const [password,setPassword]=useState('');
-   const [confirmPassword,setCconfirmPassword]=useState('');
+   const [confirmPassword,setConfirmPassword]=useState('');
    const [error,setError]=useState('');
+   const navigate =useNavigate();
+
+   const [createUserWithEmailAndPassword,user]=useCreateUserWithEmailAndPassword(auth);
 
    const handleEmailBlur =event=>{
          setEmail(event.target.value);
@@ -16,19 +22,29 @@ const SingUp = () => {
          setPassword(event.target.value);
    }
    const handleConPassBlur =event=>{
-         setCconfirmPassword(event.target.value);
+         setConfirmPassword(event.target.value);
    }
    
+   if(user){
+     navigate('/login');
+   }
    
    const handleCreateUser=event=>{
          event.preventDefault();
          if(password !== confirmPassword){
-               setError('Your Password did not Match')
+               setError('Your Password did not Match');
+               return;
          }
+         if(password.length<6){
+                setError('Password contain atleast six digit');
+                return;
+         }
+
+         createUserWithEmailAndPassword(email,password);
         
    }
    
-
+      
       return (
             <div>
                   <div className='form-container'>
