@@ -27,9 +27,9 @@ const Login = () => {
          if(user){
                navigate(from,{replace:true})
          }
-      const handleUser=event=>{
+      const handleSingInUser=event=>{
          event.preventDefault();
-         signInWithEmailAndPassword(email,password)
+         signInWithEmailAndPassword(email,password);
         
    }
 
@@ -38,7 +38,7 @@ const Login = () => {
             <div className='form-container'>
                   <div>
                     <h1 className='form-title'>Login</h1>
-                        <form onSubmit={handleUser} >
+                        <form onSubmit={handleSingInUser}>
                            <div className="input-group">
                               <label htmlFor="email">Email</label>
                               <input onBlur={handleEmailBlur} type="email" name="" placeholder='Please hit your email' required />
